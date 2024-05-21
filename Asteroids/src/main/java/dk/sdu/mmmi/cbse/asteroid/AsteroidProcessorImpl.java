@@ -5,11 +5,26 @@ import dk.sdu.mmmi.cbse.common.asteroids.IAsteroidSplitter;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.services.ColliderService;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
-public class AsteroidProcessor implements IEntityProcessingService {
+public class AsteroidProcessorImpl implements IEntityProcessingService, ColliderService {
 
     private IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
+
+
+    @Override
+    public void collided(Entity e, World world) {
+
+
+        // All this needs to do is determine whether to call the splitter or not.
+        // The collision detector takes care of removing the entity.
+        if (!(e.getRadius() < 5))
+            asteroidSplitter.createSplitAsteroid(e, world);
+
+    }
+
+
 
     @Override
     public void process(GameData gameData, World world) {
